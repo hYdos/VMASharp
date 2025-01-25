@@ -489,8 +489,8 @@ namespace VMASharp {
             VkApi.GetBufferMemoryRequirements2(Device, &req, &memReq2);
 
             memReq = memReq2.MemoryRequirements;
-            requiresDedicatedAllocation = dedicatedRequirements.RequiresDedicatedAllocation != 0;
-            prefersDedicatedAllocation = dedicatedRequirements.PrefersDedicatedAllocation != 0;
+            requiresDedicatedAllocation = dedicatedRequirements.RequiresDedicatedAllocation;
+            prefersDedicatedAllocation = dedicatedRequirements.PrefersDedicatedAllocation;
         }
 
         internal void GetImageMemoryRequirements(Image image, out MemoryRequirements memReq, out bool requiresDedicatedAllocation, out bool prefersDedicatedAllocation) {
@@ -511,8 +511,8 @@ namespace VMASharp {
             VkApi.GetImageMemoryRequirements2(Device, &req, &memReq2);
 
             memReq = memReq2.MemoryRequirements;
-            requiresDedicatedAllocation = dedicatedRequirements.RequiresDedicatedAllocation != 0;
-            prefersDedicatedAllocation = dedicatedRequirements.PrefersDedicatedAllocation != 0;
+            requiresDedicatedAllocation = dedicatedRequirements.RequiresDedicatedAllocation;
+            prefersDedicatedAllocation = dedicatedRequirements.PrefersDedicatedAllocation;
         }
 
         internal Allocation AllocateMemory(in MemoryRequirements memReq, in DedicatedAllocationInfo dedicatedInfo,
@@ -978,7 +978,7 @@ namespace VMASharp {
 
             IntPtr mappedData = default;
             if (map) {
-                res = VkApi.MapMemory(Device, memory, 0, Vk.WholeSize, 0, (void**)&mappedData);
+                res = VkApi.MapMemory(Device, memory, 0, Vk.WholeSize, MemoryMapFlags.None, (void**)&mappedData);
 
                 if (res < 0) {
                     FreeVulkanMemory(memTypeIndex, size, memory);

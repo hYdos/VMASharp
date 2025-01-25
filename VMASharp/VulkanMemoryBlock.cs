@@ -84,7 +84,7 @@ namespace VMASharp {
                 }
 
                 IntPtr pData;
-                var res = VkApi.MapMemory(Allocator.Device, DeviceMemory, 0, Vk.WholeSize, 0, (void**)&pData);
+                var res = VkApi.MapMemory(Allocator.Device, DeviceMemory, 0, Vk.WholeSize, MemoryMapFlags.None, (void**)&pData);
 
                 if (res != Result.Success) {
                     throw new MapMemoryException(res);
